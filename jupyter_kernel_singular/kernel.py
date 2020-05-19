@@ -172,14 +172,13 @@ class SingularKernel(Kernel):
         
         output_error = output[ 0 ]
         output_string = output[ 1 ]
-        
+
         if not output_error:
             if not silent:
                 if self._check_for_plot( code_stripped ):
+                    filename_image = output_string.replace("\r\n","\n").rstrip().split("\n")[-1]
                     
-                    filename_image = output_string.rstrip() + ".jpg"
-                    
-                    if filename_image == ".jpg":
+                    if re.fullmatch("/tmp/[a-z0-9]+\.jpg", "/tmp/surf201332.jpg") == None:
                         stream_content = {'execution_count': self.execution_count, 'data': { 'text/plain': "Error: No image produced - Did you forget to load surf_jupyter.lib?" } }
                         self.send_response( self.iopub_socket, 'execute_result', stream_content )
                     else:
